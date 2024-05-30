@@ -1,5 +1,11 @@
 import Link from 'next/link';
 import styles from './layout.module.css';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Cool products web site | showing all products here',
+  description: 'Look our amazing products here.',
+};
 
 const ProductLayout = ({ children }: { children: React.ReactNode }) => {
   return (

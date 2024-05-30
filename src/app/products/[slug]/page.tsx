@@ -1,3 +1,4 @@
+import { getProduct, getProducts } from '@/app/service/products';
 import { notFound } from 'next/navigation';
 import React from 'react';
 
@@ -7,15 +8,28 @@ type Props = {
   };
 };
 
-const PantsPage = ({ params }: Props) => {
-  if (params.slug === 'nothing') {
+export const generateMetadata = async ({ params: { slug } }: Props) => {
+  const product = await getProduct(slug);
+  return {
+    title: `Product: ${product?.name}`,
+  };
+};
+
+const ProductPage = async ({ params: { slug } }: Props) => {
+  const product = await getProduct(slug);
+  if (!product) {
     notFound();
   }
-  return <h1>Products - {params.slug.toUpperCase()}</h1>;
-};
-export default PantsPage;
 
-export const generateStaticParams = () => {
-  const products = ['pants', 'skirts'];
-  return products.map((product) => ({ slug: product }));
+  // showing the selected product's information among data in server file
+  return <h1>Products - {product.name.toUpperCase()}</h1>;
+};
+export default ProductPage;
+
+// In case of dynamic routing pages, if needed, make it static component by using generateStaticParams()
+export const generateStaticParams = async () => {
+  // SSG making all the product's pages of all product items in advance
+  const products = await getProducts();
+
+  return products.map((product) => ({ slug: product.id }));
 };
