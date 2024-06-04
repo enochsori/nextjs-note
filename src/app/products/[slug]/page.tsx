@@ -1,4 +1,5 @@
 import { getProduct, getProducts } from '@/app/service/products';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import React from 'react';
 
@@ -24,7 +25,17 @@ const ProductPage = async ({ params: { slug } }: Props) => {
   }
 
   // showing the selected product's information among data in server file
-  return <h1>Products - {product.name.toUpperCase()}</h1>;
+  return (
+    <>
+      <h1>Products - {product.name.toUpperCase()}</h1>
+      <Image
+        src={`/images/${product.image}`}
+        alt={product.name}
+        width='300'
+        height='300'
+      />
+    </>
+  );
 };
 export default ProductPage;
 
