@@ -14,6 +14,19 @@ const nextConfig = {
       },
     ];
   },
+  //   reduce complexity of url address
+  async rewrites() {
+    return [
+      {
+        source: '/enoch',
+        destination: '/about/me/enoch',
+      },
+      {
+        source: '/items/:slug',
+        destination: '/products/:slug',
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;
