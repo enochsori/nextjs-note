@@ -1,6 +1,7 @@
+import GoProductsButton from '@/app/components/GoProductsButton';
 import { getProduct, getProducts } from '@/app/service/products';
 import Image from 'next/image';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import React from 'react';
 
 export const revalidate = 3;
@@ -19,9 +20,14 @@ export const generateMetadata = async ({ params: { slug } }: Props) => {
 };
 
 const ProductPage = async ({ params: { slug } }: Props) => {
+  const handleOnClick = () => {
+    redirect('/products');
+  };
   const product = await getProduct(slug);
   if (!product) {
-    notFound();
+    // if there's no item, it will dynamically redirect into the preassigned page. instead of error page
+    redirect('/products');
+    // notFound();
   }
 
   // showing the selected product's information among data in server file
@@ -34,6 +40,7 @@ const ProductPage = async ({ params: { slug } }: Props) => {
         width='300'
         height='300'
       />
+      <GoProductsButton />
     </>
   );
 };
